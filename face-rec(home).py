@@ -27,7 +27,9 @@ def home():
 
 @app.route("/home",methods=['POST'])
 def upload():
-    target=os.path.join(APP_ROOT,'static/')
+
+    global image_path
+    target=os.path.join(APP_ROOT,'static/images')
     print(target)
 
     ## the if condition will make a images folder is the folder is not present
@@ -40,17 +42,15 @@ def upload():
         #file is coming here as an object
         print(file)
         filename=file.filename
-        destination="/".join([target,"temp.jpg"])
+        destination="/".join([target,filename])
         print(destination)
         file.save(destination)
-    return render_template("complete.html")
+        image_path="images/"+filename
+    return render_template("home.html",image_name=image_path)
 
 
 
 
-@app.route("/<name>")
-def user(name):
-    return f"Hello {name}"
 
 @app.route("/admin")
 def admin():
