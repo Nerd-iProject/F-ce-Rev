@@ -1,39 +1,29 @@
 body {
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color=#e81919;
+    color=#676461;
+
 }
-.container{
-    width: 1200px;
-    margin: 0 auto;
+canvas{
+    position: absolute;
 }
-header {
-    background-color: #DFB887;
-    height: 35px;
-    width: 100%;
-    opacity: .9;
-    margin-bottom: 10px;
-}
-.image-upload-button{
-    background-color: indigo;
-    color: white;
-    padding: 0.5rem;
-    font-family: sans-serif;
-    border-radius: 0.3rem;
-    cursor: pointer;
-    margin-top: 1rem;
+
+p{
+    color: red;
+    text-indent: 30px;
+    text-transform: lowercase;
 }
 input[type=file] {
-  background-color: white;
-  background-image: url('searchicon.png');
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  padding-left: 40px;
+    background-color: white;
+    /*background-image: url('searchicon.png');*/
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding-left: 40px;
+    padding:10px;
+    background:#ffffff;
 }
 img{
-    max-width:180px;
+    height:90px
+    width:90px;
 }
-input[type=file]{
-padding:10px;
-background:#2d2d2d;}
