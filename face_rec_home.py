@@ -25,6 +25,7 @@ label_path = 'static/pickle/holly_50_classes_lableencoder.pickle'
 __author__='souhardya'
 
 
+
 #Flask constructor takes the name of current module (__name__) as argument
 app = Flask(__name__)
 
@@ -33,6 +34,7 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 class FaceIndentity:
 
+    recognized_Person_Name=""
     def __init__(self, caffe_path, proto_path, model_path, label_path):
 
         self.detector = cv2.dnn.readNetFromCaffe(proto_path, caffe_path)
@@ -42,7 +44,7 @@ class FaceIndentity:
         self.labelencoder = pickle.load(open(label_path,'rb'))
 
 
-
+    
     def predict_image(self, image):
         image_np = np.asarray(image)
         self.getFace_CV2DNN(image)
@@ -54,7 +56,6 @@ class FaceIndentity:
             facelist = []
             (h,w) = image.shape[:2]
             blob = cv2.dnn.blobFromImage(cv2.resize(image, (300,300)),1.0, (300,300),(104.0, 177.0, 123.0), swapRB= False, crop = False)
-        
 
             self.detector.setInput(blob)
             detections = self.detector.forward()
@@ -96,7 +97,8 @@ class FaceIndentity:
                 label = np.argmax(out)
 
                 name = self.labelencoder.get(label)[5:]
-                print('Person Found is :',name)
+                print('Person Found is:',name)
+                self.recognized_Person_Name=name
                 cv2.putText(img= image,
                             text=name,
                             org=(x1,y1),
@@ -143,13 +145,14 @@ def upload():
         print(image_path)
     
     image=cv2.imread('static/'+image_path)
-    print("The image is",image)
+    #print("The image is",image)
 
     reg.predict_image(image)
+    print("Person Name is",reg.recognized_Person_Name)
     #plt.imshow(image)
     #plt.show()
 
-    return render_template("home.html",image_name=image_path)
+    return render_template("recognized_image.html",person_name=reg.recognized_Person_Name,image_name=image_path)
 
 
 
