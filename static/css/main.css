@@ -2,21 +2,26 @@ body {
     margin: 0 auto;
     padding: 0;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color=#676461;
-
+    text-align: center;
 }
 canvas{
     position: absolute;
 }
 
-p{
-    color: red;
-    text-indent: 30px;
-    text-transform: lowercase;
+.app_name{
+    color: blue;
+    word-spacing: 30px;
 }
+.header{
+    color: darkcyan;
+    margin: 0 auto;
+    padding: auto;
+}
+
+
 input[type=file] {
     background-color: white;
-    /*background-image: url('searchicon.png');*/
+    background-image: url('searchicon.png');
     background-position: 10px 10px;
     background-repeat: no-repeat;
     padding-left: 40px;
@@ -24,6 +29,6 @@ input[type=file] {
     background:#ffffff;
 }
 img{
-    height:90px
-    width:90px;
+    height:150px;
+    width:150px;
 }
