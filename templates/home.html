@@ -3,19 +3,40 @@
 <head>
     <title>F@ce Rec</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="{{url_for('static', filename='javascript.js')}}"></script>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
 </head>
 <body>
+     
+        <h1 class="app_name">F@&#169&#8364 R&#8364&#169</h1>    
+        <div class="header">
+            <button class="button img-rec-btn" >Image</button>
+            <button class="button video-rec-btn">Video</button>
+            <button class="button live-cam-btn">Live Cam </button>
+        </div>
+    
 
-    <p class="p1">F@ce Rec</p>
     <br>
-    <br>
-    <p></p>
+    
     <form id="upload-form" action="{{url_for('upload')}}" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" accept="image/*" multiple>
-        <input type="submit" value="Upload">
+        <img src="{{ url_for('static', filename=image_name) }}" onerror="this.onerror=null;this.src='static/image/no-img.png';">
+        
+
+
+        <input type="image" src="{{ url_for('static', filename='image/upload-img.png') }}" class="upload-btn">
+        <br>
+        <br>
+        <input type="file" name="file" id="file" class="inputfile" accept="image/*" multiple>
+        <br>
+        
+        
         <!--<img src="{{ url_for('static', filename='images/Adriana Lima2_100.jpg') }}">-->
-        <img src="{{ url_for('static', filename=image_name) }}">
+    </form>
+    
+    <form id="recognize-form" action="{{url_for('image_recognition')}}" method="POST" enctype="multipart/form-data">
+        <br>
+        <br>
+        <input class="recognize-btn" type="submit" value="Recognize">
     </form>
 </body>
 <script>
