@@ -20,8 +20,6 @@
     
     <form id="upload-form" action="{{url_for('upload')}}" method="POST" enctype="multipart/form-data">
         <img src="{{ url_for('static', filename=image_name) }}" onerror="this.onerror=null;this.src='static/image/no-img.png';">
-        
-
 
         <input type="image" src="{{ url_for('static', filename='image/upload-img.png') }}" class="upload-btn">
         <br>
