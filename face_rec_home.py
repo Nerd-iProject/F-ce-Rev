@@ -146,6 +146,7 @@ def upload():
     
     image=cv2.imread('static/'+image_path)
     print("The image is",image)
+    print()
 
     reg.predict_image(image)
     print("Person Name is",reg.recognized_Person_Name)
