@@ -125,6 +125,7 @@ def home():
 def upload():
 
     global image_path
+    global personName
     target=os.path.join(APP_ROOT,'static/images')
     print(target)
 
@@ -153,9 +154,11 @@ def upload():
     #plt.imshow(image)
     #plt.show()
 
+    return render_template("home.html",person_name=reg.recognized_Person_Name,image_name=image_path)
+
+@app.route("/image_recognition",methods=['POST'])
+def image_recognition():
     return render_template("recognized_image.html",person_name=reg.recognized_Person_Name,image_name=image_path)
-
-
 
 
 
