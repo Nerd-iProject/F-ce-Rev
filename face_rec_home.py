@@ -9,6 +9,8 @@ import numpy as np
 import sys
 
 
+#importing the necessary 
+
 from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory
 import urllib.request
 import os
@@ -24,11 +26,14 @@ label_path = 'static/pickle/holly_50_classes_lableencoder.pickle'
 
 __author__='souhardya'
 
-
+model = keras.models.load_model(model_path)
+labelEncoder = pickle.load(open(label_path,'rb'))
 
 #Flask constructor takes the name of current module (__name__) as argument
 app = Flask(__name__)
 
+global_name=""
+image_path=""
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -132,7 +137,7 @@ def upload():
     ## the if condition will make a images folder is the folder is not present
     if not os.path.isdir(target):
         os.mkdir(target)
-
+    global image_path
     #we have allowed multiple files for upload so files.getlist
     for file in request.files.getlist("file"):
 
@@ -146,20 +151,34 @@ def upload():
         print(image_path)
     
     image=cv2.imread('static/'+image_path)
-    print("The image is",image)
-    print()
 
-    reg.predict_image(image)
-    print("Person Name is",reg.recognized_Person_Name)
+    imnp = cv2.resize(image, (224,224))
+    img_np = np.array(imnp)
+
+    img_np = img_np.astype(np.float32) / 255.0
+    np_img = img_np[np.newaxis,:, :,:]
+    preds = model.predict(np_img)
+    out = np.argmax(preds)
+    global global_name 
+    global_name= labelEncoder.get(out)[5:]
+
+    #print("The image is",image)
+    print("The person name is",global_name)
+
+    '''reg.predict_image(image)
+    print("Person Name is",reg.recognized_Person_Name)'''
     #plt.imshow(image)
     #plt.show()
 
-    return render_template("home.html",person_name=reg.recognized_Person_Name,image_name=image_path)
+    #return render_template("home.html",person_name=reg.recognized_Person_Name,image_name=image_path)
+
+    return render_template("home.html",person_name=global_name,image_name=image_path)
 
 @app.route("/image_recognition",methods=['POST'])
 def image_recognition():
-    return render_template("recognized_image.html",person_name=reg.recognized_Person_Name,image_name=image_path)
+    #return render_template("recognized_image.html",person_name=reg.recognized_Person_Name,image_name=image_path)
 
+    return render_template("recognized_image.html",person_name=global_name,image_name=image_path)
 
 
 @app.route("/admin")

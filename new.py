@@ -5,7 +5,7 @@ import keras
 model_path = 'static/pickle/holly_MobileNet_3(50_class).h5'
 label_path = 'static/pickle/holly_50_classes_lableencoder.pickle'
 
-new_pickle = 'static/pickle/val1622412457(50_class).pickle'
+new_pickle = 'static/pickle/val1622412457_50_class.pickle'
 
 model = keras.models.load_model(model_path)
 
