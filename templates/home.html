@@ -5,14 +5,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="{{url_for('static', filename='javascript.js')}}"></script>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/main.css') }}">
+    <link rel = "icon" href = "{{ url_for('static',filename='image/logo.png') }}" type = "image/x-icon">
 </head>
 <body>
-     
-    <h1 class="app_name">F@&#169&#8364 R&#8364&#169</h1>    
+    <!--Copyright &#169-->
+    <!--Euro &#8364-->
+    <div class="icon_name">
+        <img class="logo_image" src="{{ url_for('static',filename='image/logo.png') }}"> 
+        <h1 class="app_name">F@ce Rec</h1>
+    </div>    
     <div class="header">
         <button class="button img-rec-btn" >Image</button>
         <button class="button video-rec-btn">Video</button>
-        <button class="button live-cam-btn">Live Cam </button>
+        <button class="button live-cam-btn" onclick=" location.href='{{url_for('live_cam_image_recognition')}}';">Live Cam </button>
     </div>
     
 

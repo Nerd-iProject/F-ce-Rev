@@ -4,19 +4,27 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-align: center;
 }
-
+.icon_name{
+    margin-bottom: 30px;
+}
+.logo_image{
+    width: 30px;
+    height: 30px;
+    margin-top: 25px;
+} 
 .app_name{
     color: #73369c;
     word-spacing: 30px;
-    text-align: left;
     background-color: #ffffff;
-    margin-bottom: 15px;
+    display: inline;
+    text-align: center;
 }
 .header{
     color: darkcyan;
     margin: 0 auto;
     padding: auto;
     background-color: #73369c;
+    margin-top: 15px;
 }
 .button{
     background-color: #360044;

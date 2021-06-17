@@ -7,11 +7,12 @@ import pickle
 import cv2.cv2 as cv2
 import numpy as np
 import sys
+from camera import VideoCamera
 
 
 
 #importing the necessary functions from the flask library
-from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory
+from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory,Response
 import urllib.request
 import os
 import matplotlib.pyplot as plt
@@ -191,6 +192,23 @@ def image_recognition():
     #return render_template("recognized_image.html",person_name=reg.recognized_Person_Name,image_name=image_path)
 
     return render_template("recognized_image.html",person_name=global_name,image_name=image_path)
+
+def gen(camera):
+    while True:
+        data=camera.get_frame()
+        frame=data[0]
+
+        #it will continously send the images one by one
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+@app.route("/live_cam_image_recognition")
+def live_cam_image_recognition():
+
+    # mimetype is because we are sending multiple images
+    # images are going to be displayed in a webpage one by one
+    # every time a new image is going to be replaced by a new one 
+    return Response(gen(VideoCamera()), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 @app.route("/admin")
