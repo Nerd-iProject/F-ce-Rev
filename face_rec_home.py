@@ -1,6 +1,6 @@
 
 
-### IMPORTING THE NECESSARY LIBRARIES
+### Importing the necessary python libraries 
 
 import keras
 import pickle
@@ -9,16 +9,21 @@ import numpy as np
 import sys
 
 
-#importing the necessary 
 
+#importing the necessary functions from the flask library
 from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory
 import urllib.request
 import os
+import matplotlib.pyplot as plt
+from werkzeug.utils import secure_filename
+
+#To disable all logging output from TensorFlow, we set the following environment variable before launching Python:
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
-import matplotlib.pyplot as plt
-from werkzeug.utils import secure_filename
+
+
 face_detection_path= "static/face_detection_model/res10_300x300_ssd_iter_140000.caffemodel"
 proto_path = "static/face_detection_model/deploy.prototxt"
 model_path = 'static/pickle/holly_MobileNet_3(50_class).h5'
@@ -35,6 +40,7 @@ app = Flask(__name__)
 global_name=""
 image_path=""
 
+#In the above, the __file__ name points to the filename of the current module
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 class FaceIndentity:
@@ -155,9 +161,15 @@ def upload():
     imnp = cv2.resize(image, (224,224))
     img_np = np.array(imnp)
 
+    # type conversion form int float 
+    # and divided by 255 to normalize the pixel data 
     img_np = img_np.astype(np.float32) / 255.0
+
+    #3 2D array one for red,gree,blue
+    #keras model accepts a 4D numpy array
     np_img = img_np[np.newaxis,:, :,:]
     preds = model.predict(np_img)
+    #returning the max element index
     out = np.argmax(preds)
     global global_name 
     global_name= labelEncoder.get(out)[5:]

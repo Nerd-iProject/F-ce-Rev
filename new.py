@@ -9,6 +9,7 @@ new_pickle = 'static/pickle/val1622412457_50_class.pickle'
 
 model = keras.models.load_model(model_path)
 
+# r+ is used for reading b is used for binary
 labelEncoder = pickle.load(open(label_path,'rb'))
 
 pick=pickle.load(open(new_pickle,'rb'))
@@ -21,6 +22,7 @@ print("Printing the first 100 test cases......")
 for img,actual in pick:
     c+=1
     img1 = img
+    
     img = img.astype(np.float32) / 255.0
     np_img = img[np.newaxis,:, :,:]
     preds = model.predict(np_img)
@@ -36,4 +38,4 @@ print(count/c)
         print('Actual = ', labelEncoder.get(actual)[5:], ' **** Predicted = ', name[5:])
         print('-------------------------------------------------------------------\n\n\n')'''
 
-      
+
