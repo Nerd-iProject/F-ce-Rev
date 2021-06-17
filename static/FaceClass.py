@@ -49,7 +49,7 @@ class FaceIndentity:
         fH = 0
         fW = 0
         for i in range(0,detections.shape[2]):
-            confidence = detections[0,0,i,2];
+            confidence = detections[0,0,i,2]
 
             if confidence < 0.7:
               continue
