@@ -10,28 +10,25 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 '''This is to supress the tensorflow warnings. If something odd happens, remove them and try to debug form the warnings'''
 
+#print(__file__[0:-15])
 
 
 
+class FaceIdentity:
 
+    dir_path=__file__[:-15]
+    face_detection_path= dir_path+"static/face_detection_model/res10_300x300_ssd_iter_140000.caffemodel"
+    proto_path = dir_path+"static/face_detection_model/deploy.prototxt"
+    model_path = dir_path+'static/pickle/holly_MobileNet_3(50_class).h5'
+    label_path = dir_path+'static/pickle/holly_50_classes_lableencoder.pickle'
 
+    def __init__(self):
 
-face_detection_path= "face_detection_model/res10_300x300_ssd_iter_140000.caffemodel"
-proto_path = "face_detection_model/deploy.prototxt"
-model_path = 'pickle/holly_MobileNet_3(50_class).h5'
-label_path = 'pickle/holly_50_classes_lableencoder.pickle'
+        self.detector = cv2.dnn.readNetFromCaffe(self.proto_path, self.face_detection_path)
 
+        self.model = keras.models.load_model(self.model_path)
 
-
-class FaceIndentity:
-
-    def __init__(self, caffe_path, proto_path, model_path, label_path):
-
-        self.detector = cv2.dnn.readNetFromCaffe(proto_path, caffe_path)
-
-        self.model = keras.models.load_model(model_path)
-
-        self.labelencoder = pickle.load(open(label_path,'rb'))
+        self.labelencoder = pickle.load(open(self.label_path,'rb'))
 
 
 
@@ -81,8 +78,8 @@ class FaceIndentity:
                 label = np.argmax(out)
 
                 name = self.labelencoder.get(label)[5:]
+                #return(name)
                 print('Person Found is :',name)
-                return(name)
                 cv2.putText(img= image,
                             text=name,
                             org=(x1,y1),
@@ -94,7 +91,10 @@ class FaceIndentity:
             except Exception as e:
                 print("Some Error in image: ", e)
 
-reg = FaceIndentity(face_detection_path,proto_path,model_path,label_path)
+reg = FaceIdentity()
 
-image = cv2.imread(sys.argv[1])
-reg.predict_image(image)
+image_path='static/image/12.jpg'
+#image = cv2.imread(sys.argv[1])
+image=cv2.imread(image_path)
+print(image)
+#reg.predict_image(image)
