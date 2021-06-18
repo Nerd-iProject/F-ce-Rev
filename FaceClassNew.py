@@ -34,7 +34,12 @@ class FaceIdentity:
 
     def predict_image(self, image):
         image_np = np.asarray(image)
-        self.getFace_CV2DNN(image)
+        try:
+            data = self.getFace_CV2DNN(image)
+        except Exception as e:
+            data = None
+            print("Some Error in image",e)
+        return data
 
 
     def getFace_CV2DNN(self, image):
@@ -65,36 +70,37 @@ class FaceIdentity:
         self.setLabel(facelist, image)
 
     def setLabel(self, facelist,image):
+        #=[]
         for (x1,y1,x2,y2) in facelist:
 
             face = image[y1:y2, x1:x2]
             if(face.shape == (0,0,3)):
-                return
-            try :
-                im = cv2.resize(face, (224, 224)).astype(np.float32) / 255.0
-                im = im.reshape(1,224,224,3)
-                out = self.model.predict(im)
+                continue
+            im = cv2.resize(face, (224, 224)).astype(np.float32) / 255.0
+            im = im.reshape(1,224,224,3)
+            out = self.model.predict(im)
 
-                label = np.argmax(out)
+            label = np.argmax(out)
 
-                name = self.labelencoder.get(label)[5:]
-                #return(name)
-                print('Person Found is :',name)
-                cv2.putText(img= image,
-                            text=name,
-                            org=(x1,y1),
-                            fontFace = cv2.FONT_HERSHEY_COMPLEX,
-                            fontScale= 0.5,
-                            color=(255,100,50),
-                            thickness= 1,
-                            lineType=cv2.LINE_AA)
-            except Exception as e:
-                print("Some Error in image: ", e)
+            name = self.labelencoder.get(label)[5:]
+            percentage=np.max(out)
+            #return(name)
+            print('Person Found is :',name)
+            cv2.putText(img= image,
+                        text=name,
+                        org=(x1,y1),
+                        fontFace = cv2.FONT_HERSHEY_COMPLEX,
+                        fontScale= 0.5,
+                        color=(255,100,50),
+                        thickness= 1,
+                        lineType=cv2.LINE_AA)
+            #l.append([name,percentage])
+        #return l
 
-reg = FaceIdentity()
+#reg = FaceIdentity()
 
-image_path='static/image/12.jpg'
+#image_path='static/image/12.jpg'
 #image = cv2.imread(sys.argv[1])
-image=cv2.imread(image_path)
-print(image)
+#image=cv2.imread(image_path)
+#print(image)
 #reg.predict_image(image)

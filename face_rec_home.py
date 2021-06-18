@@ -12,7 +12,7 @@ from camera import VideoCamera
 
 
 #importing the necessary functions from the flask library
-from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory,Response
+from flask import Flask, request, redirect, url_for, render_template,Response
 import urllib.request
 import os
 import matplotlib.pyplot as plt
@@ -44,7 +44,7 @@ image_path=""
 #In the above, the __file__ name points to the filename of the current module
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-class FaceIndentity:
+class FaceIdentity:
 
     recognized_Person_Name=""
     def __init__(self, caffe_path, proto_path, model_path, label_path):
@@ -59,8 +59,12 @@ class FaceIndentity:
     
     def predict_image(self, image):
         image_np = np.asarray(image)
-        self.getFace_CV2DNN(image)
-
+        try:
+            data = self.getFace_CV2DNN(image)
+        except Exception as e:
+            data = None
+            print("Some Error in image",e)
+        return data
 
     def getFace_CV2DNN(self, image):
         
@@ -122,7 +126,7 @@ class FaceIndentity:
             except Exception as e:
                 print("Some Error in image: ", e)
 
-reg = FaceIndentity(face_detection_path,proto_path,model_path,label_path)
+reg = FaceIdentity(face_detection_path,proto_path,model_path,label_path)
 
 
 #this are the roots what happens if the user navigate to these roots
